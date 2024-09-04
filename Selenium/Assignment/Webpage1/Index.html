@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="tel"],
+        .form-container input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container .gender-group,
+        .form-container .hobbies-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-container input[type="radio"],
+        .form-container input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .form-container input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .form-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>User Information</h2>
+        <form id="userForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="phno">Phone Number</label>
+            <input type="tel" id="phno" name="phno" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" required>
+
+            <label>Gender</label>
+            <div class="gender-group">
+                <input type="radio" id="male" name="gender" value="male" required>
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female" required>
+                <label for="female">Female</label>
+            </div>
+
+            <label>Hobbies</label>
+            <div class="hobbies-group">
+                <input type="checkbox" id="dancing" name="hobbies" value="dancing">
+                <label for="dancing">Dancing</label>
+                <input type="checkbox" id="singing" name="hobbies" value="singing">
+                <label for="singing">Singing</label>
+                <input type="checkbox" id="reading" name="hobbies" value="reading">
+                <label for="reading">Reading</label>
+                <input type="checkbox" id="traveling" name="hobbies" value="traveling">
+                <label for="traveling">Traveling</label>
+                <input type="checkbox" id="gaming" name="hobbies" value="gaming">
+                <label for="gaming">Gaming</label>
+            </div>
+
+            <label for="file">Upload File</label>
+            <input type="file" id="file" name="file" required>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div class="popup" id="errorPopup">
+        <p id="errorMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const phoneNumber = document.getElementById('phno').value;
+            const fileInput = document.getElementById('file').value;
+
+            // Validate phone number
+            if (phoneNumber.length !== 10 || !/^\d{10}$/.test(phoneNumber)) {
+                showError('Invaild Phone Number.');
+                return;
+            }
+
+            // Validate file upload
+            if (!fileInput) {
+                showError('Please upload a file.');
+                return;
+            }
+
+            // If validation passes, show thank you message
+            showPopup('Thank you for submitting!');
+        });
+
+        function showError(message) {
+            const errorPopup = document.getElementById('errorPopup');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorPopup.style.display = 'block';
+            setTimeout(function() {
+                errorPopup.style.display = 'none';
+            }, 3000);
+        }
+
+        function showPopup(message) {
+            const thankYouPopup = document.createElement('div');
+            thankYouPopup.classList.add('popup');
+            thankYouPopup.innerHTML = `<p>${message}</p>`;
+            document.body.appendChild(thankYouPopup);
+            thankYouPopup.style.display = 'block';
+            setTimeout(function() {
+                thankYouPopup.style.display = 'none';
+                document.body.removeChild(thankYouPopup);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
